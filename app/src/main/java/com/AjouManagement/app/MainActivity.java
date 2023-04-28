@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         binding.btnAddRoutine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), AddRoutine.class);
+                Intent intent = new Intent(getApplicationContext(), AddRoutineActivity.class);
                 startActivity(intent);
             }
         });
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         binding.btnCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Calendar.class);
+                Intent intent = new Intent(getApplicationContext(), CalendarActivity.class);
                 startActivity(intent);
             }
         });

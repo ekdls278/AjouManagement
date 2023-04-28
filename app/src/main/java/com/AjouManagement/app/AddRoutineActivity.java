@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.AjouManagement.app.databinding.ActivityAddRoutineBinding;
 
-public class AddRoutine extends AppCompatActivity {
+public class AddRoutineActivity extends AppCompatActivity {
     private ActivityAddRoutineBinding binding;
 
     @Override

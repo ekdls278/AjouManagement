@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.AjouManagement.app.databinding.ActivityCalendarBinding;
 
-public class Calendar extends AppCompatActivity {
+public class CalendarActivity extends AppCompatActivity {
     private ActivityCalendarBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
