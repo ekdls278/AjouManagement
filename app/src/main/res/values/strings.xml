@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AjouManagement</string>
+    <string name="underline_button"><u>     %s     </u></string>
 </resources>
