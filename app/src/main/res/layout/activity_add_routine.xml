@@ -349,6 +349,7 @@
             android:layout_height="48dp"
             android:background="@drawable/add_button_click"
             android:contentDescription="add routine"
+            android:onClick="addRoutineClick"
             android:padding="0dp"
             android:scaleType="centerInside"
             app:barrierMargin="80dp"
