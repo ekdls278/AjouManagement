@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
 
-    private final ArrayList<String> daysOfMonth;
+    private final ArrayList<DayItem> everyDate;
     private final OnItemListener onItemListener;
 
-    public CalendarAdapter(ArrayList<String> daysOfMonth, OnItemListener onItemListener)
+    public CalendarAdapter(ArrayList<DayItem> daysOfMonth, OnItemListener onItemListener)
     {
-        this.daysOfMonth = daysOfMonth;
+        this.everyDate = daysOfMonth;
         this.onItemListener = onItemListener;
     }
 
@@ -32,11 +32,18 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
-        holder.dayOfMonth.setText(daysOfMonth.get(position));
+        DayItem dayItem = everyDate.get(position);
+        if (dayItem != null) {
+            holder.bindData(dayItem);
+        } else {
+            holder.clearData();
+        }
     }
 
 
-    public int getItemCount() {return daysOfMonth.size();}
+    public int getItemCount() {return everyDate.size();}
+
+    public DayItem getItem(int position) {return everyDate.get(position);}
     public interface OnItemListener {
         void onItemClick(int position,String dayText);
     }
