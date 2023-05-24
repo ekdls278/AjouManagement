@@ -35,6 +35,7 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
         } else {
             imageItem.setVisibility(View.GONE);
         }
+
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) imageItem.getLayoutParams();
         layoutParams.addRule(RelativeLayout.BELOW, R.id.date_text);
         //아래에 배치
