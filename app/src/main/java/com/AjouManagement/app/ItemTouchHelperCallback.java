@@ -1,5 +1,6 @@
 package com.AjouManagement.app;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -7,21 +8,30 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Random;
+
 public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
     private ItemTouchHelperListener listener;
+    FallingBall fallingBall;
+    Boolean isSwipe;
+    Random random;
 
 
-    public ItemTouchHelperCallback(ItemTouchHelperListener listener) {
-
+    public ItemTouchHelperCallback(ItemTouchHelperListener listener, FallingBall fallingBall, boolean isSwipe) {
         this.listener = listener;
+        this.fallingBall = fallingBall;
+        this.isSwipe = isSwipe;
     }
 
 
     @Override
     public int getMovementFlags(@NonNull RecyclerView recyclerView,
                                 @NonNull RecyclerView.ViewHolder viewHolder) {
+        int swipe_flags = 0;
+        if(isSwipe){
+            swipe_flags = ItemTouchHelper.START | ItemTouchHelper.END;
+        }
         int drag_flags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-        int swipe_flags = ItemTouchHelper.START | ItemTouchHelper.END;
         Log.d("getMovementFlags", "getMovement");
         return makeMovementFlags(drag_flags, swipe_flags);
     }
@@ -37,6 +47,7 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
         Log.d("onMove", "Move");
         return listener.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
     }
+
 
     //리사이클러뷰의 뷰홀더와 움직일 방향을 입력받는다.
     //ItemTouchHelperListner의 onItemSwipe메소드에 움직일 방향을 입력하여 swipe구현
@@ -55,15 +66,20 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
             listener.remove(position);
             onLeftSwipe(position);
         }
-        //listener.onItemSwipe(viewHolder.getAdapterPosition(), direction);
     }
 
     //Right Swipe시 실행할 함수
     public void onRightSwipe(int position){
+        random = new Random();
+        int directionX = random.nextInt(21)-10;
+        fallingBall.createBall(20,100,directionX,1, Color.parseColor("#A9DEF9"));
         Log.d("onSwiped", "Right");
     }
     //Left Swipe시 실행할 함수
     public void onLeftSwipe(int position){
+        random = new Random();
+        int directionX = random.nextInt(5);
+        fallingBall.createBall(980,100,directionX,1, Color.parseColor("#FCF6BD"));
         Log.d("onSwiped", "Left");
     }
 
