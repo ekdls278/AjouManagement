@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="1"
         android:fontFamily="monospace"
-        android:background="#6A4D7E"
+        android:background="#FFFFFF"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

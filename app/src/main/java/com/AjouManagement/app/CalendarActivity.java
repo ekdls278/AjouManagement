@@ -106,10 +106,14 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         if(!dayText.equals("")) {
             String message = "Selected Date " + dayText+ " " +monthYearFromDate(currentDate);
             Toast.makeText(this,message,Toast.LENGTH_LONG).show();
-
         }
-
     }
+
+    //해당 날짜 정보 먼저 불러오기
+    //루틴 스코어 변수 1개 ,달성 스코어 변수 1개
+    //if(루틴 스코어 변수/ 달성 스코어 변수 > 범위)
+    // 범위에 맞게 해당 이미지를 풋한다.
+    //클릭 시 정보 다 보여주고 텍스트 색깔 변화하게 하기
 
 
 
