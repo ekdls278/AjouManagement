@@ -80,8 +80,8 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         // 이미지 매핑 정보를 구성하는 코드를 작성합니다.
         // 예시로 아래와 같이 Map을 초기화하고 반환합니다.
         Map<LocalDate, Integer> imageMap = new HashMap<>();
-//        imageMap.put(LocalDate.of(2023,5,1), R.drawable.image1);
-//        imageMap.put(LocalDate.now().plusDays(1), R.drawable.image2);
+        imageMap.put(LocalDate.of(2023,5,1), R.drawable.image1);
+        imageMap.put(LocalDate.now().plusDays(1), R.drawable.image2);
         // 필요한 이미지 매핑 정보를 추가로 구성합니다.
         return imageMap;
     }
