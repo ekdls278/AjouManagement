@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -25,9 +26,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
 
+import com.AjouManagement.app.RoutineListActivity.RoutineList;
 import com.AjouManagement.app.databinding.ActivityAddRoutineBinding;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class AddRoutineActivity extends AppCompatActivity {
     private ActivityAddRoutineBinding binding;
@@ -40,6 +44,47 @@ public class AddRoutineActivity extends AppCompatActivity {
         binding = ActivityAddRoutineBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+        binding.listButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), RoutineList.class);
+                startActivity(intent);
+            }
+        });
+
+        //오늘 날짜 띄우기
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM.d(E)");
+        String today =sdf.format(System.currentTimeMillis());
+        TextView selectedDateText = (TextView)findViewById(R.id.SelectedDate);
+        selectedDateText.setText(today);
+
+        //여기서 할거 : 1. 날짜 선택하고, 2. 날짜 기반으로 요일 구하고, 3. 형식에 맞게 날짜 띄우기
+        selectedDateText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar calendar = Calendar.getInstance();
+                int pYear = calendar.get(Calendar.YEAR);
+                int pMonth = calendar.get(Calendar.MONTH);
+                int pDay = calendar.get(Calendar.DAY_OF_MONTH);
+                datePickerDialog = new DatePickerDialog(AddRoutineActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int date){   //날짜 정보 받기
+                        SimpleDateFormat temp_form = new SimpleDateFormat("yyyy/MM/dd");
+                        month = month + 1;
+                        String selectDate = year+"/" + month+"/"+date;
+                        Date todayDate;
+                        try{
+                            todayDate = temp_form.parse(selectDate);
+                            selectDate = sdf.format(todayDate);
+                        }
+                        catch (Exception e){}
+                        selectedDateText.setText(selectDate);
+
+                    }
+                }, pYear, pMonth,pDay);
+                datePickerDialog.show();
+            }
+        });
 
         //repeat 여부 선택
         Switch repeat_switch = findViewById(R.id.repeat_switch);
@@ -252,8 +297,10 @@ public class AddRoutineActivity extends AppCompatActivity {
 * 5. 저장한 데이터들 다른 뷰에 띄우기 (4)
 *
 * 현문제: 테이블뷰 col 끼리의 마진 설정 -> 테이블레이아웃을 리니어레이아웃으로 변경하기
-* 최상단에 오늘 날짜 가져오기
-* 태그 선택하면 어떻게 바뀔지 생각하기
-* 추가 버튼 누르면 데이터 저장하기
-* 다른 뷰에서 저장한 루틴 불러오기
+* 일정 리스트 액티비티 만들기
+* time,date 날짜 색깔 변경
+* 추가 버튼 누르면 데이터 저장하기  ->데이터 연결
+* 다른 뷰에서 저장한 루틴 불러오기  -> 데이터 연결
+*
+* 최상단에 오늘 날짜 가져오기 -> 오늘 날짜로 할지? 아니면 누르면 날짜 선택할 수 있게 바꿀지?
 * */
