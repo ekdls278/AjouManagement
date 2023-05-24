@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.StackView;
 
 import com.AjouManagement.app.databinding.ActivityMainBinding;
-import com.amyu.stack_card_layout_manager.StackCardLayoutManager;
 
 import java.util.ArrayList;
 import java.util.Collection;

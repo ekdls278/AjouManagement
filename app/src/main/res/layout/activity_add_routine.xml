@@ -7,23 +7,45 @@
     android:background="@color/add_back"
     tools:context=".AddRoutineActivity">
 
-    <TextView
-        android:id="@+id/SelectedDate"
-        android:layout_width="414dp"
-        android:layout_height="102dp"
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="0dp"
+        android:layout_height="112dp"
         android:background="#6A4D7E"
-        android:fontFamily="monospace"
-        android:gravity="center|end"
-        android:text="March.29(Wed)"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/SelectedDate"
+            android:layout_width="365dp"
+            android:layout_height="match_parent"
+            android:background="#6A4D7E"
+            android:fontFamily="monospace"
+            android:gravity="center|end"
+            android:text="March.29(Wed)"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/listButton"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/add_button_click"
+            android:contentDescription="add routine"
+            android:padding="0dp"
+            android:scaleType="centerInside"
+            app:barrierMargin="80dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/repeat_container"
+            app:layout_constraintVertical_bias="0.19999999"
+            app:srcCompat="@drawable/plus" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -32,9 +54,7 @@
         android:background="#000000"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SelectedDate">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
         <TextView
             android:id="@+id/textView4"
@@ -53,12 +73,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:stretchColumns="*"
             android:background="@color/white"
             android:paddingLeft="18dp"
+            android:paddingTop="8dp"
             android:paddingRight="18dp"
-            android:paddingTop="8dp">
-        </TableLayout>
+            android:stretchColumns="*"></TableLayout>
 
     </LinearLayout>
 
