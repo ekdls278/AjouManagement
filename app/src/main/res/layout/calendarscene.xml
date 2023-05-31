@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:background="#6A4D7E"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp">
         <Button
@@ -19,6 +20,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text = "@string/back"
+            android:textColor="#FFFFFF"
             android:background="@null"
             android:textStyle="bold"
             android:onClick ="previousMonthAction"
@@ -31,15 +33,17 @@
             android:layout_height="wrap_content"
             android:layout_weight ="2"
             android:text="May 5"
+            android:textColor="#FFFFFF"
+            android:fontFamily="monospace"
             android:textSize="20sp"
             android:textAlignment="center"
-
-            android:textColor ="@color/black"/>
+            />
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text = "@string/forward"
+            android:textColor="#FFFFFF"
             android:background="@null"
             android:textStyle="bold"
             android:onClick="nextMonthAction"
@@ -115,20 +119,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendarRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="339dp" />
-
-    <Button
-        android:id="@+id/savebutton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        ></Button>
-
-    <EditText
-        android:id="@+id/edtdiary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/holo_red_light"
-        android:lines="8"
-        android:textColor="@android:color/white" />
+        android:layout_height="517dp"
+        android:background="#E4D4E9"/>
 
 </LinearLayout>
