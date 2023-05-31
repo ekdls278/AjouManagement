@@ -20,7 +20,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".RoutineListActivity.RoutineList"
+            android:name=".RoutineListActivity.RoutineListActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

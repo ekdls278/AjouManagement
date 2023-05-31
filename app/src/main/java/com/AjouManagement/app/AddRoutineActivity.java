@@ -1,32 +1,31 @@
 package com.AjouManagement.app;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Application;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.ToggleButton;
 
-import com.AjouManagement.app.RoutineListActivity.RoutineList;
+import com.AjouManagement.app.RoutineListActivity.RoutineListActivity;
 import com.AjouManagement.app.databinding.ActivityAddRoutineBinding;
 
 import java.text.SimpleDateFormat;
@@ -34,12 +33,17 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class AddRoutineActivity extends AppCompatActivity {
+
     private ActivityAddRoutineBinding binding;
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
     private final int DYNAMIC_ID = 0x8000;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        RoutineViewModel viewModel= new ViewModelProvider(this).get(RoutineViewModel.class);
+
         super.onCreate(savedInstanceState);
         binding = ActivityAddRoutineBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
@@ -47,7 +51,7 @@ public class AddRoutineActivity extends AppCompatActivity {
         binding.listButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RoutineList.class);
+                Intent intent = new Intent(getApplicationContext(), RoutineListActivity.class);
                 startActivity(intent);
             }
         });
@@ -142,7 +146,112 @@ public class AddRoutineActivity extends AppCompatActivity {
             tableLayout.addView(tableRow);
         }
 
+        ImageButton addButton = findViewById(R.id.imageButton);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RoutineDBEntity routineDBEntity = new RoutineDBEntity();
+                String checkDay = "";
+                String checkTag = "";
 
+                //동적 태그를 어떻게 받아와야하지?
+                CheckBox checkedTag0 =(CheckBox)findViewById(DYNAMIC_ID+0);
+                CheckBox checkedTag1 =(CheckBox)findViewById(DYNAMIC_ID+1);
+                CheckBox checkedTag2 =(CheckBox)findViewById(DYNAMIC_ID+2);
+                CheckBox checkedTag3 =(CheckBox)findViewById(DYNAMIC_ID+3);
+
+                EditText textTitle = (EditText)findViewById(R.id.ScheduleTitle);
+                TextView textTime = (TextView)findViewById(R.id.time_text);
+                Switch repeatSwitch = (Switch)findViewById(R.id.repeat_switch);
+                TextView textDate = (TextView)findViewById(R.id.date_text);
+                TextView textSelectedDate = (TextView)findViewById(R.id.SelectedDate);
+
+                CheckBox checkedSun =(CheckBox)findViewById(R.id.check_sun);
+                CheckBox checkedMon =(CheckBox)findViewById(R.id.check_mon);
+                CheckBox checkedTue =(CheckBox)findViewById(R.id.check_tue);
+                CheckBox checkedWed =(CheckBox)findViewById(R.id.check_wed);
+                CheckBox checkedThu =(CheckBox)findViewById(R.id.check_Thu);
+                CheckBox checkedFri =(CheckBox)findViewById(R.id.check_Fri);
+                CheckBox checkedSat =(CheckBox)findViewById(R.id.check_Sat);
+
+                String[] editTime = textTime.getText().toString().split(" : ");
+                String[] editDate = textDate.getText().toString().split(" / ");
+                String editTitle = textTitle.getText().toString();
+
+                if(checkedTag0.isChecked()){
+                    checkTag=checkedTag0.getText().toString()+", ";
+                }
+                if(checkedTag1.isChecked()){
+                    checkTag=checkTag+checkedTag1.getText().toString()+", ";
+                }
+                if(checkedTag2.isChecked()){
+                    checkTag=checkTag+checkedTag2.getText().toString()+", ";
+                }
+                if(checkedTag3.isChecked()){
+                    checkTag=checkTag+checkedTag3.getText().toString()+", ";
+                }
+                if(!checkTag.equals("")){
+                    checkTag= checkTag.substring(0,checkTag.length()-2);
+                    Log.i("data","선택 태그 : "+checkTag);
+                    routineDBEntity.routineTag = checkTag;      //선택 태그 넣어주기
+
+                }
+
+                if(!editTitle.equals("")){
+                    Log.i("data","루틴 이름 : "+editTitle);
+                    routineDBEntity.routineTitle = editTitle;       //이름 넣어주기
+
+                }
+
+                if(!editTime[0].equals("시작 시간 입력")){
+                    Log.i("data","루틴 시간 : "+editTime[0]+"시 "+editTime[1]+"분");
+                    routineDBEntity.routineTime = editTime[0]+":"+editTime[1];      //루틴 수행 시간 넣어주기
+
+                }
+
+                if(repeatSwitch.isChecked()){
+                    if(checkedSun.isChecked()){
+                        checkDay="일, ";
+                    }
+                    if(checkedMon.isChecked()){
+                        checkDay=checkDay+"월, ";
+                    }
+                    if(checkedTue.isChecked()){
+                        checkDay=checkDay+"화, ";
+                    }
+                    if(checkedWed.isChecked()){
+                        checkDay=checkDay+"수, ";
+                    }
+                    if(checkedThu.isChecked()){
+                        checkDay=checkDay+"목, ";
+                    }
+                    if(checkedFri.isChecked()){
+                        checkDay=checkDay+"금, ";
+                    }
+                    if(checkedSat.isChecked()){
+                        checkDay=checkDay+"토, ";
+                    }
+                    if(!checkDay.equals("")){
+                        checkDay= checkDay.substring(0,checkDay.length()-2);
+                        Log.i("data","반복 요일 : "+checkDay);
+                        routineDBEntity.routineRepeatDayOfWeek = checkDay;      //반복 요일 넣어주기
+
+                    }
+
+                    if(!editDate[0].equals("종료 날짜 입력")){
+                        Log.i("data", "루틴 종료 날짜 : " +editDate[0]+"년 "+editDate[1]+"월 "+editDate[2]+"일 ");
+                        routineDBEntity.routineRepeatEndDate = editDate[0]+"/"+editDate[1]+"/"+editDate[2];     //반복 종료 날짜 넣어주기
+                    }
+                }
+
+                routineDBEntity.routineDate = textSelectedDate.getText().toString();    //날짜 넣어주기
+                viewModel.insert(routineDBEntity);
+
+                Intent intent = new Intent(getApplicationContext(), RoutineListActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
 
@@ -200,7 +309,10 @@ public class AddRoutineActivity extends AppCompatActivity {
     }
 
     //버튼 누르면 입력 값 저장하기
+
+    /*
     public void addRoutineClick(View v){
+        RoutineDBEntity routineDBEntity = new RoutineDBEntity();
         String checkDay = "";
         String checkTag = "";
 
@@ -214,6 +326,7 @@ public class AddRoutineActivity extends AppCompatActivity {
         TextView textTime = (TextView)findViewById(R.id.time_text);
         Switch repeatSwitch = (Switch)findViewById(R.id.repeat_switch);
         TextView textDate = (TextView)findViewById(R.id.date_text);
+        TextView textSelectedDate = (TextView)findViewById(R.id.SelectedDate);
 
         CheckBox checkedSun =(CheckBox)findViewById(R.id.check_sun);
         CheckBox checkedMon =(CheckBox)findViewById(R.id.check_mon);
@@ -284,8 +397,19 @@ public class AddRoutineActivity extends AppCompatActivity {
             }
         }
 
-    }
+        routineDBEntity.routineTitle = editTitle;       //이름 넣어주기
+        routineDBEntity.routineDate = textSelectedDate.getText().toString();    //날짜 넣어주기
+        routineDBEntity.routineTime = editTime[0]+":"+editTime[1];      //루틴 수행 시간 넣어주기
+        routineDBEntity.routineTag = checkTag;      //선택 태그 넣어주기
+        routineDBEntity.routineRepeatDayOfWeek = checkDay;      //반복 요일 넣어주기
+        routineDBEntity.routineRepeatEndDate = editDate[0]+"/"+editDate[1]+"/"+editDate[2];     //반복 종료 날짜 넣어주기
+        viewModel.insert(routineDBEntity);
 
+        Intent intent = new Intent(getApplicationContext(), RoutineListActivity.class);
+        startActivity(intent);
+        finish();
+    }
+*/
 }
 
 /*
