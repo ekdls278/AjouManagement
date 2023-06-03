@@ -6,26 +6,32 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
 @Dao
 public interface RoutineDBDao {
-    @Query("SELECT * FROM routine")     //루틴 정보 전부 불러오기 //여기가 안불러와진다고...
+    @Query("SELECT * FROM routine")     //루틴 정보 전부 불러오기
     LiveData<List<RoutineDBEntity>> getAll();
 
-    @Query("SELECT routine_title FROM routine")     //루틴 이름 전부 불러오기
-    LiveData<List<String>> getTitleAll();
+    @Query("SELECT * FROM routine WHERE routine_date IN (:routineDate)")     //해당 날짜에 해당되는 루틴 불러오기
+    LiveData<List<RoutineDBEntity>> getTodayRoutine(String routineDate);
 
 //    @Query("SELECT * FROM routine WHERE routineId IN (:routineId)")
 //    List<RoutineDBEntity> loadAllByIds(int[] routineId);
 
-    @Insert
-    void insertAll(RoutineDBEntity... dbEntities);
+//    @Insert
+//    void insertAll(RoutineDBEntity... dbEntities);
 
-    @Insert     //루틴 추가 => 충돌체크 어떻게 할지?
+    @Insert     //루틴 추가하기
     void insert(RoutineDBEntity routineDBEntity);
+
+    @Update     //수행 여부 업데이트하기
+    void update(RoutineDBEntity routineDBEntity);
 
     @Delete
     void delete(RoutineDBEntity data);
+
+
 }

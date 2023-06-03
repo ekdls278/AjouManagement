@@ -38,6 +38,8 @@ public class AddRoutineActivity extends AppCompatActivity {
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
     private final int DYNAMIC_ID = 0x8000;
+    RoutineDBEntity routineDBEntity = new RoutineDBEntity();
+
 
 
     @Override
@@ -58,9 +60,13 @@ public class AddRoutineActivity extends AppCompatActivity {
 
         //오늘 날짜 띄우기
         SimpleDateFormat sdf = new SimpleDateFormat("MMM.d(E)");
+        SimpleDateFormat date_db_form = new SimpleDateFormat("yyyy/MM/dd");
+
         String today =sdf.format(System.currentTimeMillis());
         TextView selectedDateText = (TextView)findViewById(R.id.SelectedDate);
         selectedDateText.setText(today);
+        today = date_db_form.format(System.currentTimeMillis());      //db에 넣을 값세팅
+        routineDBEntity.routineDate = today;    //날짜 db에 넣어주기(0000/00/00)
 
         //여기서 할거 : 1. 날짜 선택하고, 2. 날짜 기반으로 요일 구하고, 3. 형식에 맞게 날짜 띄우기
         selectedDateText.setOnClickListener(new View.OnClickListener() {
@@ -80,9 +86,11 @@ public class AddRoutineActivity extends AppCompatActivity {
                         try{
                             todayDate = temp_form.parse(selectDate);
                             selectDate = sdf.format(todayDate);
+                            routineDBEntity.routineDate = temp_form.format(todayDate);    //날짜 db에 넣어주기(0000/00/00)
+
                         }
                         catch (Exception e){}
-                        selectedDateText.setText(selectDate);
+                        selectedDateText.setText(selectDate); //MMM.d(E)
 
                     }
                 }, pYear, pMonth,pDay);
@@ -150,9 +158,11 @@ public class AddRoutineActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RoutineDBEntity routineDBEntity = new RoutineDBEntity();
                 String checkDay = "";
                 String checkTag = "";
+                SimpleDateFormat prev_date_form = new SimpleDateFormat("MMM.d(E)");
+                SimpleDateFormat next_date_form = new SimpleDateFormat("yyyy/MM/dd");
+
 
                 //동적 태그를 어떻게 받아와야하지?
                 CheckBox checkedTag0 =(CheckBox)findViewById(DYNAMIC_ID+0);
@@ -178,20 +188,20 @@ public class AddRoutineActivity extends AppCompatActivity {
                 String[] editDate = textDate.getText().toString().split(" / ");
                 String editTitle = textTitle.getText().toString();
 
-                if(checkedTag0.isChecked()){
+                if(checkedTag0.isChecked()){        //태그 하나만 선택
                     checkTag=checkedTag0.getText().toString()+", ";
                 }
-                if(checkedTag1.isChecked()){
-                    checkTag=checkTag+checkedTag1.getText().toString()+", ";
+                else if(checkedTag1.isChecked()){
+                    checkTag=checkTag+checkedTag1.getText().toString();
                 }
-                if(checkedTag2.isChecked()){
-                    checkTag=checkTag+checkedTag2.getText().toString()+", ";
+                else if(checkedTag2.isChecked()){
+                    checkTag=checkTag+checkedTag2.getText().toString();
                 }
-                if(checkedTag3.isChecked()){
-                    checkTag=checkTag+checkedTag3.getText().toString()+", ";
+                else if(checkedTag3.isChecked()){
+                    checkTag=checkTag+checkedTag3.getText().toString();
                 }
-                if(!checkTag.equals("")){
-                    checkTag= checkTag.substring(0,checkTag.length()-2);
+                else if(!checkTag.equals("")){
+    //                checkTag= checkTag.substring(0,checkTag.length()-2);
                     Log.i("data","선택 태그 : "+checkTag);
                     routineDBEntity.routineTag = checkTag;      //선택 태그 넣어주기
 
@@ -244,7 +254,7 @@ public class AddRoutineActivity extends AppCompatActivity {
                     }
                 }
 
-                routineDBEntity.routineDate = textSelectedDate.getText().toString();    //날짜 넣어주기
+                routineDBEntity.routinePerformState = 0;
                 viewModel.insert(routineDBEntity);
 
                 Intent intent = new Intent(getApplicationContext(), RoutineListActivity.class);

@@ -30,6 +30,9 @@ public class RoutineDBEntity {
     @ColumnInfo(name = "routine_repeat_day_of_week")
     public String routineRepeatDayOfWeek;
 
+    @ColumnInfo(name = "routine_perform_state")
+    public int routinePerformState;
+
     public String getSelectedDate(){
         return this.routineDate;
     }
@@ -48,4 +51,5 @@ public class RoutineDBEntity {
     public String getRepeatEndDate(){
         return this.routineRepeatEndDate;
     }
+    public int getPerformState() { return this.routinePerformState; }
 }
