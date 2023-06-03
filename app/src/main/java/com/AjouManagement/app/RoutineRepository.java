@@ -9,9 +9,10 @@ import java.util.List;
 public class RoutineRepository {
     private RoutineDBDao mRoutineDBDao;
     private LiveData<List<RoutineDBEntity>> mAllRoutines;
+    private LiveData<List<RoutineDBEntity>> mTodayRoutines;
 
     RoutineRepository(Application application){
-        RoutineDB db = RoutineDB.getDatabase(application);  //여기 디비가 안불러와지는거같은데
+        RoutineDB db = RoutineDB.getDatabase(application);
         mRoutineDBDao = db.routineDBDao();
         mAllRoutines = mRoutineDBDao.getAll();
     }
@@ -19,10 +20,19 @@ public class RoutineRepository {
     LiveData<List<RoutineDBEntity>> getAllRoutines(){
         return mAllRoutines;
     }
+    LiveData<List<RoutineDBEntity>> getTodayRoutine(String routineDate){
+        mTodayRoutines = mRoutineDBDao.getTodayRoutine(routineDate);
+        return mTodayRoutines;
+    }
 
     void insert(RoutineDBEntity routineDBEntity) {
         RoutineDB.databaseWriteExecutor.execute(() -> {
             mRoutineDBDao.insert(routineDBEntity);
+        });
+    }
+    void update(RoutineDBEntity routineDBEntity) {
+        RoutineDB.databaseWriteExecutor.execute(() -> {
+            mRoutineDBDao.update(routineDBEntity);
         });
     }
 }
