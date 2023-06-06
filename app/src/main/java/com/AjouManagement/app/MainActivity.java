@@ -1,6 +1,9 @@
 package com.AjouManagement.app;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +20,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.StackView;
 
+import com.AjouManagement.app.RoutineListActivity.RoutineAdapter;
 import com.AjouManagement.app.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
@@ -28,8 +32,10 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements DragListener.Listener {
     private ActivityMainBinding binding;
 
-    private ArrayList<MainData> arrayList;
-    private ArrayList<MainData> addArrayList;
+    private List<RoutineDBEntity> arrayList;
+    private List<RoutineDBEntity> addArrayList;
+
+    private LiveData<List<RoutineDBEntity>> routineDataList;
 
     private MainAdapter mainAdapter;
     private MainAdapter addAdapter;
@@ -98,14 +104,49 @@ public class MainActivity extends AppCompatActivity implements DragListener.List
         recyclerView.addItemDecoration(new MainItemDecoration(-150));
         arrayList = new ArrayList<>();
 
-        for(int i=0; i<20; i++){
-            MainData testData = new MainData("TestData" +i);
-            arrayList.add(testData);
-        }
-        Collections.reverse(arrayList);
+
+
+
+        ////
+
+
+        RoutineViewModel viewModel= new ViewModelProvider(this).get(RoutineViewModel.class);
+        routineDataList = viewModel.getAllRoutines();
+
+
+        //
+//        MainAdapter routineAdapter = new RoutineAdapter(routineDataList.getValue()); //어댑터 안에는 db 데이터가 들어와야함
+
+
+
+        ////
+
+
+
+
+
+
+
+//        for(int i=0; i<20; i++){
+//            MainData testData = new MainData("TestData" +i);
+//            arrayList.add(testData);
+//        }
 
         //Main RecyclerView Adapter설정
+        //new
+
+        arrayList = viewModel.getAllRoutines().getValue();
+
         mainAdapter = new MainAdapter(arrayList, this);
+
+        viewModel.getAllRoutines().observe(this,new Observer<List<RoutineDBEntity>>() {
+            @Override
+            public void onChanged(List<RoutineDBEntity> routineDBEntities) {
+                mainAdapter.setMainList(routineDBEntities);
+            }
+        });
+
+        //new
         recyclerView.setAdapter(mainAdapter);
 
         fallingBall = binding.fb;
@@ -127,10 +168,11 @@ public class MainActivity extends AppCompatActivity implements DragListener.List
         addRecyclerView.setLayoutManager(addLayoutManager);
         addArrayList = new ArrayList<>();
 
-        for(int i=0; i<5; i++){
-            MainData testData = new MainData("Data" +i);
-            addArrayList.add(testData);
-        }
+//        for(int i=0; i<5; i++){
+//            RoutineDBEntity testData = new RoutineDBEntity();
+//            addArrayList.add(testData);
+//        }
+
         addAdapter = new MainAdapter(addArrayList, this);
         addRecyclerView.setAdapter(addAdapter);
 
