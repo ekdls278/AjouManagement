@@ -86,15 +86,15 @@ public class DragListener implements View.OnDragListener {
                             int positionSource = (int) viewSource.getTag();
                             int sourceId = source.getId();
 
-                            MainData list = adapterSource.getList().get(positionSource);
-                            ArrayList<MainData> listSource = adapterSource.getList();
+                            RoutineDBEntity list = adapterSource.getList().get(positionSource);
+                            List<RoutineDBEntity> listSource = adapterSource.getList();
 
                             listSource.remove(positionSource);
                             adapterSource.updateList(listSource);
                             adapterSource.notifyDataSetChanged();
 
                             MainAdapter adapterTarget = (MainAdapter) target.getAdapter();
-                            ArrayList<MainData> customListTarget = adapterTarget.getList();
+                            List<RoutineDBEntity> customListTarget = adapterTarget.getList();
                             if (positionTarget >= 0) {
                                 customListTarget.add(positionTarget, list);
                                 Log.d("onDrag", String.valueOf(positionTarget));
