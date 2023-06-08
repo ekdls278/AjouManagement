@@ -1,5 +1,6 @@
 package com.AjouManagement.app.RoutineListActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -11,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.AjouManagement.app.AddRoutineActivity;
 import com.AjouManagement.app.R;
 import com.AjouManagement.app.RoutineDBEntity;
 import com.AjouManagement.app.RoutineViewModel;
@@ -57,15 +59,19 @@ public class RoutineListActivity extends AppCompatActivity {
             }
         });*/
 
-        update();
-
         RecyclerView recyclerView = view.findViewById(R.id.list_routine); //리사이클러뷰 연결
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         recyclerView.setAdapter(routineAdapter);
 
     }
+    
+    public void moveToAddRoutine(View view){
+        Intent intent = new Intent(getApplicationContext(), AddRoutineActivity.class);
+        startActivity(intent);
+    }
 
+    /* 루틴 데이터 업데이트
     public void update(){
         RoutineViewModel viewModel= new ViewModelProvider(this).get(RoutineViewModel.class);        //쿼리날릴 뷰모델 선언
         RoutineDBEntity updateData = new RoutineDBEntity();
@@ -78,4 +84,6 @@ public class RoutineListActivity extends AppCompatActivity {
         updateData.routinePerformState = 1;         //수행 상태 완료로 변경
         viewModel.update(updateData);
     }
+
+     */
 }
