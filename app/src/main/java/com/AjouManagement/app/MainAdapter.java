@@ -18,15 +18,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHolder>
         implements ItemTouchHelperListener, View.OnLongClickListener {
-    private ArrayList<MainData> arrayList;
+    private List<RoutineDBEntity> arrayList;
     private DragListener.Listener listener;
 
-    public MainAdapter(ArrayList<MainData> arrayList, DragListener.Listener listener) {
+    public MainAdapter(List<RoutineDBEntity> arrayList, DragListener.Listener listener) {
         this.arrayList = arrayList;
         this.listener = listener;
+    }
+    public void setMainList(List<RoutineDBEntity> data){
+        arrayList = data;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -41,11 +46,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MainAdapter.CustomViewHolder holder, int position) {
-        holder.tv_schedule_main.setText(arrayList.get(position).getTv_schedule_main());
+        holder.tv_schedule_main.setText(arrayList.get(position).getTitle());
         holder.itemView.setTag(position);
 
-        holder.frameLayout.setOnLongClickListener(
-                this);
+        holder.frameLayout.setOnLongClickListener(this);
         holder.frameLayout.setOnDragListener(new DragListener(listener));
     }
 
@@ -65,7 +69,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
 
     @Override
     public boolean onItemMove(int form_position, int to_position) {
-        MainData item = arrayList.get(form_position);
+        RoutineDBEntity item = arrayList.get(form_position);
         arrayList.remove(form_position);
         arrayList.add(to_position, item);
         notifyItemMoved(form_position, to_position);
@@ -75,7 +79,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
 
 
 
-    void updateList(ArrayList<MainData> arrayList) {
+    void updateList(List<RoutineDBEntity> arrayList) {
         this.arrayList = arrayList;
     }
 
@@ -87,7 +91,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
             return null;
         }
     }
-    ArrayList<MainData> getList() {
+    List<RoutineDBEntity> getList() {
         return arrayList;
     }
 
