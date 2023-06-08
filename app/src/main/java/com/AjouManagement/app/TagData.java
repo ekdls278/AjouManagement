@@ -1,7 +1,7 @@
 package com.AjouManagement.app;
 
 public class TagData {
-    static String[] Tags = {
+    public static String[] Tags = {
             "운동",
             "업무",
             "자기계발",
@@ -9,7 +9,7 @@ public class TagData {
             "언어"
     };
 
-    static String[] TagColors ={
+    public static String[] TagColors ={
             "#87D6FF",
             "#FEEC87",
             "#CCFF99",
