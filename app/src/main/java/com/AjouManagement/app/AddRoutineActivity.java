@@ -126,7 +126,7 @@ public class AddRoutineActivity extends AppCompatActivity {
             tableRow.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
             tableRow.setPadding(0, 5, 0,20); //@px -> dp로 변경하기
 
-            for(int j = 0 ; j < 4 ; j++){
+            for(int j = 0 ; j < TagData.Tags.length ; j++){
                 final TextView text = new TextView(this);
                 final CheckBox checkTag = new CheckBox(this);
                 int idx = 4*i+j;
@@ -260,7 +260,7 @@ public class AddRoutineActivity extends AppCompatActivity {
                         input_check_flag = 0;
                     }
 
-                    if (!editDate[0].equals("종료 날짜 입력")) {
+                    if (!editDate[0].equals("종료 날짜 입력")) {      //종료날짜를 설정하지 않을경우 1년뒤까지 자동 일정 생성해줄까???
                         Log.i("data", "루틴 종료 날짜 : " + editDate[0] + "년 " + editDate[1] + "월 " + editDate[2] + "일 ");
                         routineDBEntity.routineRepeatEndDate = editDate[0] + "/" + editDate[1] + "/" + editDate[2];     //반복 종료 날짜 넣어주기
                         input_check_flag = 1;
@@ -268,6 +268,11 @@ public class AddRoutineActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "반복 종료 날짜를 입력해주세요.", Toast.LENGTH_LONG).show();
                         input_check_flag = 0;
                     }
+                }
+                else{   //버튼을 키지 않았을경우
+                    routineDBEntity.routineRepeatDayOfWeek = null;
+                    routineDBEntity.routineRepeatEndDate = null;
+                    input_check_flag = 1;
                 }
 
                 routineDBEntity.routinePerformState = 0;
@@ -279,9 +284,16 @@ public class AddRoutineActivity extends AppCompatActivity {
                         try {
                             Date forDate = date_db_form.parse(startDate);     //확인하고자 하는 날짜를 date형태로 변경
                             Calendar cal = Calendar.getInstance();
+                            Calendar endCal = Calendar.getInstance();
                             SimpleDateFormat dow_format = new SimpleDateFormat("E", Locale.KOREA);
                             cal.setTime(forDate);
                             do{        //지금 날짜랑 끝나는 날짜랑 같으면 진행하고 종료
+                                if(date_db_form.format(cal.getTime()).equals(routineDBEntity.routineRepeatEndDate)) //반복해놓고 현재 날짜를 선택했으면 break
+                                        break;
+                                //endCal.setTime(forDate);
+                                //endCal.add(Calendar.YEAR, 1);   //1년 뒤
+                                //if(date_db_form.format(endCal.getTime()).equals(cal.getTime()))  //1년 뒤까지 넣고 종료
+                                //    break;
                                 cal.add(Calendar.DATE, 1);   //1일 더하기~~!!~~
                                 //현재 요일이랑 반복 요일이랑 일치하는지 확인해서 일치한다면 값 db에 바로 삽입해줘야함
                                 if (checkDay.contains(dow_format.format(cal.getTime()))) { //지금 요일이 반복 요일에 있다면

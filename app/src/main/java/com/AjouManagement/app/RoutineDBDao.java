@@ -21,6 +21,9 @@ public interface RoutineDBDao {
 //    @Query("SELECT * FROM routine WHERE routineId IN (:routineId)")
 //    List<RoutineDBEntity> loadAllByIds(int[] routineId);
 
+    @Query("SELECT * FROM routine WHERE routine_date IN (:routineDate) AND routine_perform_state = 0")
+    LiveData<List<RoutineDBEntity>> getTodayUnperformedRoutine(String routineDate);
+
     @Insert
     void insertAll(RoutineDBEntity... dbEntities);
 

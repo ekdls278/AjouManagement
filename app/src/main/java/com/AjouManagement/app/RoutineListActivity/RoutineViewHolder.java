@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.AjouManagement.app.R;
 
+//화면에 표시될 아이템 뷰 저장
 public class RoutineViewHolder extends RecyclerView.ViewHolder {
     private final TextView routineItemView;
     private RoutineViewHolder(View itemView) {
