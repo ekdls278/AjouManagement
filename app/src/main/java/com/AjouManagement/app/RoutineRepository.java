@@ -30,6 +30,12 @@ public class RoutineRepository {
             mRoutineDBDao.insert(routineDBEntity);
         });
     }
+    void insertAll(RoutineDBEntity routineDBEntity) {
+        RoutineDB.databaseWriteExecutor.execute(() -> {
+            mRoutineDBDao.insert(routineDBEntity);
+        });
+    }
+
     void update(RoutineDBEntity routineDBEntity) {
         RoutineDB.databaseWriteExecutor.execute(() -> {
             mRoutineDBDao.update(routineDBEntity);

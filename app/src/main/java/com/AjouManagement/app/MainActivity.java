@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.StackView;
 
+import com.AjouManagement.app.RoutineListActivity.RoutineListActivity;
 import com.AjouManagement.app.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements DragListener.List
         binding.btnAddRoutine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), AddRoutineActivity.class);
+                Intent intent = new Intent(getApplicationContext(), RoutineListActivity.class);
                 startActivity(intent);
             }
         });

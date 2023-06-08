@@ -21,8 +21,8 @@ public interface RoutineDBDao {
 //    @Query("SELECT * FROM routine WHERE routineId IN (:routineId)")
 //    List<RoutineDBEntity> loadAllByIds(int[] routineId);
 
-//    @Insert
-//    void insertAll(RoutineDBEntity... dbEntities);
+    @Insert
+    void insertAll(RoutineDBEntity... dbEntities);
 
     @Insert     //루틴 추가하기
     void insert(RoutineDBEntity routineDBEntity);

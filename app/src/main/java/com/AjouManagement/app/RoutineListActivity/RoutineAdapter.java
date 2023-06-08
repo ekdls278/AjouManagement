@@ -56,7 +56,6 @@ public class RoutineAdapter extends RecyclerView.Adapter<RoutineAdapter.ViewHold
     }
     @Override
     public void onBindViewHolder(RoutineAdapter.ViewHolder holder, int position) {
-        Log.i("loutinelist", position+"");
         if(routineList.get(position).routineTitle != null)
             holder.title.setText(routineList.get(position).routineTitle);
         if(routineList.get(position).routineTag != null)
