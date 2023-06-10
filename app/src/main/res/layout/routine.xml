@@ -14,15 +14,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/tag_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="tag_list" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <LinearLayout
         android:id="@+id/tag_color"
@@ -109,6 +101,16 @@
                         android:layout_weight="1"
                         android:text="repeatEndDate_list" />
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/state_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="40dp"
+                    android:layout_weight="2"
+                    android:background="@color/background_center"
+                    android:text="state_text" />
 
             </LinearLayout>
         </LinearLayout>

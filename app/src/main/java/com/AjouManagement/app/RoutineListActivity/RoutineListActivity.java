@@ -2,6 +2,7 @@ package com.AjouManagement.app.RoutineListActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -18,7 +19,12 @@ import com.AjouManagement.app.RoutineDBEntity;
 import com.AjouManagement.app.RoutineViewModel;
 import com.AjouManagement.app.databinding.ActivityRoutineListBinding;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class RoutineListActivity extends AppCompatActivity {
@@ -35,6 +41,8 @@ public class RoutineListActivity extends AppCompatActivity {
         //모든 루틴 리스트 갖고오기
         RoutineViewModel viewModel= new ViewModelProvider(this).get(RoutineViewModel.class);        //쿼리날릴 뷰모델 선언
         routineDataList = viewModel.getAllRoutines();       //모든 루틴 가져오기
+
+
 
         RoutineAdapter routineAdapter = new RoutineAdapter(routineDataList.getValue());
 

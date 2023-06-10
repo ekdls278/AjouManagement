@@ -6,7 +6,7 @@ public class TagData {
             "업무",
             "자기계발",
             "집안일",
-            "언어"
+            //"언어"
     };
 
     public static String[] TagColors ={
@@ -14,6 +14,6 @@ public class TagData {
             "#FEEC87",
             "#CCFF99",
             "#FF7AAA",
-            "#87D6FF"
+           // "#87D6FF"
     };
 }

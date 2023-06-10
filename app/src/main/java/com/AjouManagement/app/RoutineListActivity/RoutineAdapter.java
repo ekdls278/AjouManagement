@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,6 +20,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.AjouManagement.app.CalendarAdapter;
 import com.AjouManagement.app.R;
 import com.AjouManagement.app.RoutineDB;
 import com.AjouManagement.app.RoutineDBEntity;
@@ -31,28 +34,40 @@ import java.util.List;
 //collection와 viewholder 객체 관리
 public class RoutineAdapter extends RecyclerView.Adapter<RoutineAdapter.ViewHolder> {
     private List<RoutineDBEntity> routineList = null;
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView title;
-        TextView tag;
+        TextView state;
         TextView date;
         TextView time;
         TextView repeatDow;
         TextView repeatEnd;
         LinearLayout tagColor;
         LinearLayout repeatContainer;
+        Button modifyButton;
+        Button deleteButton;
 
         ViewHolder(View view){
             super(view);
             title = view.findViewById(R.id.title_list);
-            tag = view.findViewById(R.id.tag_list);
+            state = view.findViewById(R.id.state_text);
             date = view.findViewById(R.id.selectedDate_list);
             time = view.findViewById(R.id.selectedTime_list);
             repeatDow = view.findViewById(R.id.repeatDOW_list);
             repeatEnd = view.findViewById(R.id.repeatEndDate_list);
             tagColor = view.findViewById(R.id.tag_color);   //태그 색깔 나타내기
             repeatContainer = view.findViewById(R.id.repeat_container);
+
         }
     }
+    private AdapterView.OnItemClickListener mListener =null;
+    public void setOnItemClickListener(AdapterView.OnItemClickListener listener){
+        this.mListener = listener;
+    }
+    public interface OnItemClickListener{
+        void onItemClick(View v, int position);
+    }
+
     RoutineAdapter(List<RoutineDBEntity> list){
         routineList = list;
     }
@@ -73,7 +88,10 @@ public class RoutineAdapter extends RecyclerView.Adapter<RoutineAdapter.ViewHold
         if(routineList.get(position).routineTitle != null)
             holder.title.setText(routineList.get(position).routineTitle);
         if(routineList.get(position).routineTag != null)
-            holder.tag.setText(routineList.get(position).routineTag);
+            if(routineList.get(position).routinePerformState == 1)
+                holder.state.setText("수행 완료");
+            else
+                holder.state.setText("수행 전");
         if(routineList.get(position).routineDate != null)
             holder.date.setText(routineList.get(position).routineDate);
         if(routineList.get(position).routineTime != null)
@@ -95,10 +113,10 @@ public class RoutineAdapter extends RecyclerView.Adapter<RoutineAdapter.ViewHold
                 }
             }
         }
-        else{
+        else{ //태그 선택안했을경우
             holder.tagColor.setBackgroundColor(Color.parseColor("#d9d9d9"));
         }
-//태그 선택안했을경우
+
     }
 
     @Override
@@ -110,6 +128,7 @@ public class RoutineAdapter extends RecyclerView.Adapter<RoutineAdapter.ViewHold
         routineList = data;
         notifyDataSetChanged();
     }
+
 }
 /*
 public class RoutineAdapter extends ListAdapter<RoutineDBEntity, RoutineViewHolder> {
