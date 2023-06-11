@@ -12,7 +12,7 @@ import java.util.List;
 
 @Dao
 public interface RoutineDBDao {
-    @Query("SELECT * FROM routine")     //루틴 정보 전부 불러오기
+    @Query("SELECT * FROM routine ORDER BY routine_date")     //루틴 정보 전부 불러오기
     LiveData<List<RoutineDBEntity>> getAll();
 
     @Query("SELECT * FROM routine WHERE routine_date IN (:routineDate)")     //해당 날짜에 해당되는 루틴 불러오기
