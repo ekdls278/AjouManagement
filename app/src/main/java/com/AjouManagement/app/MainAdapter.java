@@ -1,5 +1,7 @@
 package com.AjouManagement.app;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.os.Build;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,9 +28,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
     private List<RoutineDBEntity> arrayList;
     private DragListener.Listener listener;
 
-    public MainAdapter(List<RoutineDBEntity> arrayList, DragListener.Listener listener) {
+    private RoutineViewModel viewModel;
+
+    public MainAdapter(List<RoutineDBEntity> arrayList, DragListener.Listener listener, RoutineViewModel viewModel) {
         this.arrayList = arrayList;
         this.listener = listener;
+        this.viewModel = viewModel;
     }
     public void setMainList(List<RoutineDBEntity> data){
         arrayList = data;
@@ -50,22 +56,36 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
         holder.itemView.setTag(position);
 
         holder.frameLayout.setOnLongClickListener(this);
-        holder.frameLayout.setOnDragListener(new DragListener(listener));
+
+        holder.frameLayout.setOnDragListener(new DragListener(listener, viewModel));
+
+
     }
+
+
+
+
 
     @Override
     public int getItemCount() {
         return (null != arrayList ? arrayList.size() : 0);
     }
 
-    public void remove(int position){
+    public RoutineDBEntity remove(int position){
+        RoutineDBEntity target = null;
         try{
+            target = arrayList.get(position);
             arrayList.remove(position);
             notifyItemRemoved(position);
         } catch (IndexOutOfBoundsException ex) {
             ex.printStackTrace();
         }
+        return target;
+
     }
+
+
+
 
     @Override
     public boolean onItemMove(int form_position, int to_position) {
@@ -85,7 +105,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
 
     DragListener getDragInstance() {
         if (listener != null) {
-            return new DragListener(listener);
+            return new DragListener(listener, viewModel);
         } else {
             Log.e("ListAdapter", "Listener wasn't initialized!");
             return null;
@@ -108,6 +128,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
     }
 
 
+
+
+
+
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
         protected FrameLayout frameLayout;
@@ -117,6 +141,32 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
             super(itemView);
             this.tv_schedule_main = (TextView) itemView.findViewById(R.id.tv_schedule_main);
             this.frameLayout = (FrameLayout) itemView.findViewById(R.id.frame_layout_item);
+
+//            this.tv_schedule_main.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    showItemDialog(arrayList.get(getAdapterPosition()));
+//                }
+//            });
+
+        }
+
+        private void showItemDialog(RoutineDBEntity item) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
+            String tag;
+            if(item.routineTag == null)
+            {
+                tag = "없음";
+            }
+            else
+            {
+                tag = item.routineTag;
+            }
+            builder.setTitle(item.routineTitle)
+                    .setMessage("Routine Time  : " + item.routineTime + "\n"
+                            + "Routine tag  : " + tag)
+                    .setPositiveButton("OK", null)
+                    .show();
         }
     }
 }

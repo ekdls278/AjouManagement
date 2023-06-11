@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,13 +15,17 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
     private ItemTouchHelperListener listener;
     FallingBall fallingBall;
     Boolean isSwipe;
+
+    RoutineViewModel viewModel;
     Random random;
 
 
-    public ItemTouchHelperCallback(ItemTouchHelperListener listener, FallingBall fallingBall, boolean isSwipe) {
+    public ItemTouchHelperCallback(ItemTouchHelperListener listener, FallingBall fallingBall, boolean isSwipe, RoutineViewModel viewModel) {
         this.listener = listener;
         this.fallingBall = fallingBall;
         this.isSwipe = isSwipe;
+        this.viewModel = viewModel;
+
     }
 
 
@@ -31,7 +36,8 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
         if(isSwipe){
             swipe_flags = ItemTouchHelper.START | ItemTouchHelper.END;
         }
-        int drag_flags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+        int drag_flags = 0;
+        //int drag_flags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
         Log.d("getMovementFlags", "getMovement");
         return makeMovementFlags(drag_flags, swipe_flags);
     }
@@ -58,13 +64,17 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
         int position = viewHolder.getAdapterPosition();
         if(direction == ItemTouchHelper.START)
         {
-            listener.remove(position);
+            RoutineDBEntity target = listener.remove(position);
             onRightSwipe(position);
+            target.routinePerformState = 2;
+            viewModel.update(target);
         }
         else if(direction == ItemTouchHelper.END)
         {
-            listener.remove(position);
+            RoutineDBEntity target = listener.remove(position);
             onLeftSwipe(position);
+            target.routinePerformState = 1;
+            viewModel.update(target);
         }
     }
 
