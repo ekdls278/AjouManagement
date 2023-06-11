@@ -6,6 +6,9 @@ import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.reflect.Array;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,12 +23,16 @@ public class DragListener implements View.OnDragListener {
     private boolean isDropped = false;
     private Listener listener;
 
-    DragListener(Listener listener) {
+    private RoutineViewModel viewmodel;
+
+    DragListener(Listener listener, RoutineViewModel viewmodel) {
         this.listener = listener;
+        this.viewmodel = viewmodel;
     }
 
     @Override
     public boolean onDrag(View v, DragEvent event) {
+        //Animation
         switch (event.getAction()) {
             case DragEvent.ACTION_DRAG_ENTERED:
                 View enteredView = v;
@@ -96,11 +103,28 @@ public class DragListener implements View.OnDragListener {
                             MainAdapter adapterTarget = (MainAdapter) target.getAdapter();
                             List<RoutineDBEntity> customListTarget = adapterTarget.getList();
                             if (positionTarget >= 0) {
+                                Log.d("get", customListTarget.get(positionTarget).routineTitle);
+                                String time1 = customListTarget.get(positionTarget).getSelectedTime();
+                                RoutineDBEntity dragToAdd = new RoutineDBEntity();
+
+                                int minutesToAdd = 5;
+                                int currentMinutes = Integer.parseInt(time1.substring(3)); // "34"를 정수로 변환
+                                int newMinutes = currentMinutes + minutesToAdd; // 분에 5를 더함
+                                String modifiedStr = time1.substring(0, 3) + String.format("%02d", newMinutes);
+
+                                dragToAdd.routineTime = modifiedStr;
+                                dragToAdd.routineTitle = list.routineTitle;
+                                dragToAdd.routineDate = list.routineDate;
+                                dragToAdd.routinePerformState = 0;
+
+
+                                viewmodel.insert(dragToAdd);
                                 customListTarget.add(positionTarget, list);
                                 Log.d("onDrag", String.valueOf(positionTarget));
                             }
                             else {
                                 customListTarget.add(list);
+                                Log.d("list", list.getTitle());
                             }
                             adapterTarget.updateList(customListTarget);
                             adapterTarget.notifyDataSetChanged();
@@ -129,6 +153,7 @@ public class DragListener implements View.OnDragListener {
         }
         return true;
     }
+
 
     private void applyItemMoveAnimation(RecyclerView recyclerView, int fromPosition, int toPosition) {
         RecyclerView.Adapter adapter = recyclerView.getAdapter();
