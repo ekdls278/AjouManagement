@@ -9,6 +9,7 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +28,7 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
 
     }
 
-    public void bindData(DayItem dayItem) {
+    public void bindData(DayItem dayItem, List<RoutineDBEntity> routineList) {
         dayOfMonth.setText(dayItem.getDayText());
         if (dayItem.getImageResId() != 0) {
             imageItem.setImageResource(dayItem.getImageResId());
@@ -37,8 +38,20 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
         }
 
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) imageItem.getLayoutParams();
-        layoutParams.addRule(RelativeLayout.BELOW, R.id.date_text);
-        //아래에 배치
+        layoutParams.addRule(RelativeLayout.BELOW, R.id.cellDayText);
+
+        // 루틴 데이터 표시 로직 추가
+        if (routineList != null) {
+            for (RoutineDBEntity routine : routineList) {
+                if (routine.routineDate.equals(dayItem.getDayText())) {
+                    imageItem.setImageResource(dayItem.getImageResId());
+                    imageItem.setVisibility(View.VISIBLE);
+                    // 루틴 데이터와 관련된 로직을 여기에 추가
+                    // 예를 들어 배경색 변경, 아이콘 변경 등을 수행할 수 있습니다.
+                    break;
+                }
+            }
+        }
     }
 
     public void clearData() {

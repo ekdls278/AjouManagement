@@ -26,7 +26,6 @@ public class RoutineViewModel extends AndroidViewModel {
         mTodayRoutines = mRepository.getTodayUnperformedRoutine(routineDate);
         return mTodayRoutines;
     }
-
     public void insert(RoutineDBEntity routineDBEntity) { mRepository.insert(routineDBEntity); }
     public void update(RoutineDBEntity routineDBEntity) { mRepository.update(routineDBEntity); }
 }
