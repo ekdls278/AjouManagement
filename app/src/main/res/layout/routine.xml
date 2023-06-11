@@ -4,71 +4,141 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="30dp"
+    android:layout_marginBottom="10dp"
     android:background="@color/add_back">
 
     <LinearLayout
+        android:id="@+id/linearLayout5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"/>
 
-        <TextView
-            android:id="@+id/title_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="title_list"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/tag_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="tag_list" />
+    <LinearLayout
+        android:id="@+id/tag_color"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:background="#FDF5FF"
+            android:orientation="vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp">
+
+                <TextView
+                    android:id="@+id/selectedDate_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:text="selectedDate_list"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/selectedTime_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="selectedTime_list"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/repeatDOW_list"
-                android:layout_width="100dp"
+                android:id="@+id/title_list"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="repeatDOW_list" />
+                android:paddingLeft="10dp"
+                android:text="title_list"
+                android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/repeatEndDate_list"
+            <LinearLayout
+                android:id="@+id/repeat_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="repeatEndDate_list" />
+                android:orientation="horizontal"
+                android:paddingLeft="10dp">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    app:srcCompat="@drawable/repeat" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/repeatDOW_list"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="repeatDOW_list" />
+
+                    <TextView
+                        android:id="@+id/repeatEndDate_list"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="repeatEndDate_list" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/state_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="40dp"
+                    android:layout_weight="2"
+                    android:background="@color/background_center"
+                    android:text="state_text" />
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:id="@+id/button_container"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#FDF5FF"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/selectedDate_list"
-                android:layout_width="100dp"
+            <Button
+                android:id="@+id/modify_button"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="selectedDate_list" />
+                android:background="#D8F2BD"
+                android:text="modify" />
 
-            <TextView
-                android:id="@+id/selectedTime_list"
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/delete_button"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="selectedTime_list" />
-
+                android:background="#F2BDBD"
+                android:text="delete" />
         </LinearLayout>
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

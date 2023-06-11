@@ -13,4 +13,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:context=".RoutineListActivity.RoutineListActivity" />
+
+    <Button
+        android:id="@+id/newRoutine"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:backgroundTint="#E4C1F9"
+        android:onClick="moveToAddRoutine"
+        android:text="새 루틴 추가하기"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/list_routine"
+        app:layout_constraintVertical_bias="0.962" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,12 +24,22 @@ public class RoutineRepository {
         mTodayRoutines = mRoutineDBDao.getTodayRoutine(routineDate);
         return mTodayRoutines;
     }
+    LiveData<List<RoutineDBEntity>> getTodayUnperformedRoutine(String routineDate){
+        mTodayRoutines = mRoutineDBDao.getTodayUnperformedRoutine(routineDate);
+        return mTodayRoutines;
+    }
 
     void insert(RoutineDBEntity routineDBEntity) {
         RoutineDB.databaseWriteExecutor.execute(() -> {
             mRoutineDBDao.insert(routineDBEntity);
         });
     }
+    void insertAll(RoutineDBEntity routineDBEntity) {
+        RoutineDB.databaseWriteExecutor.execute(() -> {
+            mRoutineDBDao.insert(routineDBEntity);
+        });
+    }
+
     void update(RoutineDBEntity routineDBEntity) {
         RoutineDB.databaseWriteExecutor.execute(() -> {
             mRoutineDBDao.update(routineDBEntity);
