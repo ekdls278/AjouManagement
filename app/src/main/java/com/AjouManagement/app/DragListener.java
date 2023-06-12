@@ -112,18 +112,29 @@ public class DragListener implements View.OnDragListener {
                                 int newMinutes = currentMinutes + minutesToAdd; // 분에 5를 더함
                                 String modifiedStr = time1.substring(0, 3) + String.format("%02d", newMinutes);
 
-                                dragToAdd.routineTime = modifiedStr;
-                                dragToAdd.routineTitle = list.routineTitle;
-                                dragToAdd.routineDate = list.routineDate;
-                                dragToAdd.routinePerformState = 0;
+//                                dragToAdd.routineTime = modifiedStr;
+//                                dragToAdd.routineTitle = list.routineTitle;
+//                                dragToAdd.routineDate = list.routineDate;
+//                                dragToAdd.routinePerformState = 0;
+                                list.routineTime = modifiedStr;
+                                list.routinePerformState = 0;
 
 
-                                viewmodel.insert(dragToAdd);
+                                viewmodel.update(list);
                                 customListTarget.add(positionTarget, list);
                                 Log.d("onDrag", String.valueOf(positionTarget));
                             }
                             else {
                                 customListTarget.add(list);
+                                RoutineDBEntity dragToAdd = new RoutineDBEntity();
+
+//                                dragToAdd.routineTime = list.routineTime;
+//                                dragToAdd.routineDate = list.routineDate;
+//                                dragToAdd.routineTitle = list.routineTitle;
+//                                dragToAdd.routinePerformState = 0;
+//                                dragToAdd.routineTag = list.routineTag;
+                                list.routinePerformState = 0;
+                                viewmodel.update(list);
                                 Log.d("list", list.getTitle());
                             }
                             adapterTarget.updateList(customListTarget);
