@@ -297,19 +297,21 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
                         String routineText = "일정: " + title +"|"+ " Tag: " + tag + "  "+" | " +routineState ;
                         routineTextList.add(routineText);
                     }
-                    showRoutines(routineTextList);
+                    showRoutines(currentDate,dayText,routineTextList);
                 }
             });
         }
     }
 
     // 선택한 날짜에 해당하는 루틴을 화면에 보여주는 메소드
-    private void showRoutines(List<String> routineTextList) {
+    private void showRoutines(LocalDate currentDate, String dayText,List<String> routineTextList) {
         StringBuilder builder = new StringBuilder();
         for (String routineText : routineTextList) {
             builder.append(routineText).append("\n");
         }
-        String str = "<Show the Routine>\n";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
+        String Today  =currentDate.format(formatter);
+        String str = "<Show the Routine: "+Today+"  " + dayText+ ">\n";
         String routinesText = str+builder.toString();
 
         routineTextView.setText(routinesText);
