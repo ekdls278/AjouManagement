@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -81,22 +83,26 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
                     String routineDate = routine.getSelectedDate();
                     LocalDate selectedDate = LocalDate.parse(routineDate, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
 
-                    // 현재 날짜 이후의 날짜인 경우 루틴 처리를 건너뜁니다.
-                    if (selectedDate.isAfter(currentDate)) {
-                        continue;
-                    }
+
+
 
                     int totalTodayRoutines = getTodayRoutinesCountForDate(routineDBEntities, routineDate);
                     int completedTodayRoutines = getCompletedTodayRoutinesCountForDate(routineDBEntities, routineDate);
                     setImageView(routineDate, totalTodayRoutines, completedTodayRoutines);
-                    //달력 날짜의 정보를 불러 온 다음 '/'를 기준으로 문자열을 나눈다
+                    //달력 날짜의 정보를 불러 온 다음 '/'를 기준으로 문자열을 나눠줍니다.
                     Integer routineState = getRoutineState(routine);
                     String[] parts = routineDate.split("/");
                     int year = Integer.parseInt(parts[0]);
                     int month = Integer.parseInt(parts[1]);
                     int day = Integer.parseInt(parts[2]);
-                    //해당 날짜에 성취도에 따른 이미지를 배치
-                    imageMap.put(LocalDate.of(year, month, day), getRoutineImageResource(routineState, totalTodayRoutines, completedTodayRoutines));
+                    // 현재 날짜 시점 이후의 일정들은 별도의 표시를 위한 이미지를 맵핑합니다.
+                    if (selectedDate.isAfter(currentDate)) {
+//                        continue;
+                        imageMap.put(LocalDate.of(year,month,day),R.drawable.futureroutine);
+                    }else {
+                        //해당 날짜에 성취도에 따른 이미지를 배치
+                        imageMap.put(LocalDate.of(year, month, day), getRoutineImageResource(routineState, totalTodayRoutines, completedTodayRoutines));
+                    }
                 }
 
                 //리사이클러뷰 구성
@@ -107,6 +113,18 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
                 calendarRecyclerView.setAdapter(calendarAdapter);
             }
         });
+    }
+
+    private void setMappingForDate(LocalDate date, int imageResId){
+        // 해당 날짜의 View를 찾아옵니다.
+        View view = calendarRecyclerView.findViewWithTag(String.valueOf(date.getDayOfMonth()));
+        if (view != null) {
+            // View에서 이미지를 설정하거나 텍스트를 설정하는 등의 매핑 작업을 수행합니다.
+            ImageView imageView = view.findViewById(R.id.imageItem2);
+            if (imageView != null) {
+                imageView.setImageResource(imageResId);
+            }
+        }
     }
 
     //이미지 배치를 위한 메소드
@@ -167,15 +185,15 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         }
         if (routineState == 1) {
             if (completionRatio > 0.5) {
-                return R.drawable.excellent4; // Image for completed routines with high completion ratio
+                return R.drawable.excellent4;
             } else {
-                return R.drawable.good3; // Image for completed routines with low completion ratio
+                return R.drawable.good3;
             }
         } else if(routineState== 0) {
             if (completionRatio > 0.5) {
-                return R.drawable.soso2; // Image for incomplete routines with high completion ratio
+                return R.drawable.soso2;
             } else {
-                return R.drawable.empty0; // Image for incomplete routines with low completion ratio
+                return R.drawable.empty0;
             }
         } else { return null; }
 //            if (completionRatio >= 0.8) {
@@ -203,7 +221,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
 
         for (int i = 1; i <= 42; i++) {
             if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
-                dayMonthArray.add(null);
+                dayMonthArray.add(null); //LocalDate에 해당하지 않는 날짜에는 null값을 반환합니다.
             } else {
                 String dayText = String.valueOf(i - dayOfWeek);
                 int imageResId = 0;
@@ -228,7 +246,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         return date.format(formatter);
     }
 
- //이전 달의 정보를 불러온다
+    //이전 달의 정보를 불러온다
     public void previousMonthAction(View view) {
         currentDate = currentDate.minusMonths(1);
         setMonthView();
@@ -249,7 +267,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
             String DayDay;
             //1자리 수의 겨우 dayText앞에 0 붙여줌
             if(zeroplus<10) {
-                 DayDay = YnM(currentDate) +"/"+"0"+dayText;
+                DayDay = YnM(currentDate) +"/"+"0"+dayText;
             } else{
                 DayDay = YnM(currentDate) +"/"+dayText;
             }
@@ -279,19 +297,21 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
                         String routineText = "일정: " + title +"|"+ " Tag: " + tag + "  "+" | " +routineState ;
                         routineTextList.add(routineText);
                     }
-                    showRoutines(routineTextList);
+                    showRoutines(currentDate,dayText,routineTextList);
                 }
             });
         }
     }
 
     // 선택한 날짜에 해당하는 루틴을 화면에 보여주는 메소드
-    private void showRoutines(List<String> routineTextList) {
+    private void showRoutines(LocalDate currentDate, String dayText,List<String> routineTextList) {
         StringBuilder builder = new StringBuilder();
         for (String routineText : routineTextList) {
             builder.append(routineText).append("\n");
         }
-        String str = "<Show the Routine>\n";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
+        String Today  =currentDate.format(formatter);
+        String str = "<Show the Routine: "+Today+"  " + dayText+ ">\n";
         String routinesText = str+builder.toString();
 
         routineTextView.setText(routinesText);

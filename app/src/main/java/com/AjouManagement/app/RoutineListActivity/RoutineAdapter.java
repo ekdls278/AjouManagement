@@ -68,7 +68,7 @@ public class RoutineAdapter extends RecyclerView.Adapter<RoutineAdapter.ViewHold
         void onItemClick(View v, int position);
     }
 
-    RoutineAdapter(List<RoutineDBEntity> list){
+    public RoutineAdapter(List<RoutineDBEntity> list){
         routineList = list;
     }
     @Override

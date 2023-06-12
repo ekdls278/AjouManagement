@@ -153,39 +153,37 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendarRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="324dp"
+        android:layout_width="413dp"
+        android:layout_height="442dp"
         android:layout_above="@+id/routineTextView"
         android:layout_below="@+id/linearLayout5"
-        android:layout_marginTop="24dp"
         android:background="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/routineTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/routineTextView"
-        android:layout_width="408dp"
-        android:layout_height="178dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="40dp"
-        android:background="#E4D4E9"
-        android:lines="8"
-        android:text="Routinelist"
-        android:textAlignment="viewStart"
-        android:fontFamily="serif-monospace"
-        android:textAllCaps="true"
-        android:textColor="@android:color/black"
-        android:textSize="20dp"
-        android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/routineTextView"
+        android:layout_width="411dp"
+        android:layout_height="144dp"
+        android:layout_alignParentBottom="true"
+        android:background="#E4D4E9"
+        android:fontFamily="serif-monospace"
+        android:lines="8"
+        android:text="Routinelist"
+        android:textAlignment="viewStart"
+        android:textAllCaps="true"
+        android:textColor="@android:color/black"
+        android:textSize="15dp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent
+"
+        app:layout_constraintTop_toBottomOf="@+id/calendarRecyclerView"
         app:layout_constraintVertical_bias="1.0" />
 
 
