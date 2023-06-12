@@ -48,6 +48,7 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
                     imageItem.setVisibility(View.VISIBLE);
                     // 루틴 데이터와 관련된 로직을 여기에 추가
                     // 예를 들어 배경색 변경, 아이콘 변경 등을 수행할 수 있습니다.
+                    // 추후 구현 예정입니다.
                     break;
                 }
             }

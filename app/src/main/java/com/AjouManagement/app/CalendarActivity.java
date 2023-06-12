@@ -89,13 +89,13 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
                     int totalTodayRoutines = getTodayRoutinesCountForDate(routineDBEntities, routineDate);
                     int completedTodayRoutines = getCompletedTodayRoutinesCountForDate(routineDBEntities, routineDate);
                     setImageView(routineDate, totalTodayRoutines, completedTodayRoutines);
-                    //달력 날짜의 정보를 불러 온 다음 '/'를 기준으로 문자열을 나눈다
+                    //달력 날짜의 정보를 불러 온 다음 '/'를 기준으로 문자열을 나눠줍니다.
                     Integer routineState = getRoutineState(routine);
                     String[] parts = routineDate.split("/");
                     int year = Integer.parseInt(parts[0]);
                     int month = Integer.parseInt(parts[1]);
                     int day = Integer.parseInt(parts[2]);
-                    // 현재 날짜 이후의 날짜인 경우 루틴 처리를 건너뜁니다.
+                    // 현재 날짜 시점 이후의 일정들은 별도의 표시를 위한 이미지를 맵핑합니다.
                     if (selectedDate.isAfter(currentDate)) {
 //                        continue;
                         imageMap.put(LocalDate.of(year,month,day),R.drawable.futureroutine);
@@ -185,15 +185,15 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         }
         if (routineState == 1) {
             if (completionRatio > 0.5) {
-                return R.drawable.excellent4; // Image for completed routines with high completion ratio
+                return R.drawable.excellent4;
             } else {
-                return R.drawable.good3; // Image for completed routines with low completion ratio
+                return R.drawable.good3;
             }
         } else if(routineState== 0) {
             if (completionRatio > 0.5) {
-                return R.drawable.soso2; // Image for incomplete routines with high completion ratio
+                return R.drawable.soso2;
             } else {
-                return R.drawable.empty0; // Image for incomplete routines with low completion ratio
+                return R.drawable.empty0;
             }
         } else { return null; }
 //            if (completionRatio >= 0.8) {
@@ -221,7 +221,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
 
         for (int i = 1; i <= 42; i++) {
             if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
-                dayMonthArray.add(null);
+                dayMonthArray.add(null); //LocalDate에 해당하지 않는 날짜에는 null값을 반환합니다.
             } else {
                 String dayText = String.valueOf(i - dayOfWeek);
                 int imageResId = 0;
