@@ -28,6 +28,10 @@ public class RoutineRepository {
         mTodayRoutines = mRoutineDBDao.getTodayUnperformedRoutine(routineDate);
         return mTodayRoutines;
     }
+    LiveData<List<RoutineDBEntity>> getTodayWithholdRoutine(String routineDate){
+        mTodayRoutines = mRoutineDBDao.getTodayWithholdRoutine(routineDate);
+        return mTodayRoutines;
+    }
 
     void insert(RoutineDBEntity routineDBEntity) {
         RoutineDB.databaseWriteExecutor.execute(() -> {

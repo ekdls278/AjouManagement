@@ -64,19 +64,6 @@
         app:layout_constraintVertical_bias="0.023" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_addRoutine"
-        android:layout_width="116dp"
-        android:layout_height="match_parent"
-        android:background="#FDF5FF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/left_area"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:listitem="@layout/schedule_main" />
-
-    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_width="196dp"
         android:layout_height="377dp"
@@ -109,5 +96,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rv"
         app:layout_constraintVertical_bias="0.949" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_addRoutine"
+        android:layout_width="116dp"
+        android:layout_height="match_parent"
+        android:background="#FDF5FF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/left_area"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:listitem="@layout/schedule_main" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

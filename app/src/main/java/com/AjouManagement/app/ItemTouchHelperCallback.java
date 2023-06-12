@@ -65,31 +65,31 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
         if(direction == ItemTouchHelper.START)
         {
             RoutineDBEntity target = listener.remove(position);
-            onRightSwipe(position);
+            onRightSwipe(position, target.routineTitle);
             target.routinePerformState = 2;
             viewModel.update(target);
         }
         else if(direction == ItemTouchHelper.END)
         {
             RoutineDBEntity target = listener.remove(position);
-            onLeftSwipe(position);
+            onLeftSwipe(position, target.routineTitle);
             target.routinePerformState = 1;
             viewModel.update(target);
         }
     }
 
     //Right Swipe시 실행할 함수
-    public void onRightSwipe(int position){
+    public void onRightSwipe(int position, String title){
         random = new Random();
         int directionX = random.nextInt(21)-10;
-        fallingBall.createBall(20,100,directionX,1, Color.parseColor("#A9DEF9"));
+        fallingBall.createBall(20,100,directionX,1, Color.parseColor("#A9DEF9"), title);
         Log.d("onSwiped", "Right");
     }
     //Left Swipe시 실행할 함수
-    public void onLeftSwipe(int position){
+    public void onLeftSwipe(int position, String title){
         random = new Random();
         int directionX = random.nextInt(5);
-        fallingBall.createBall(980,100,directionX,1, Color.parseColor("#FCF6BD"));
+        fallingBall.createBall(980,100,directionX,1, Color.parseColor("#FCF6BD"), title);
         Log.d("onSwiped", "Left");
     }
 

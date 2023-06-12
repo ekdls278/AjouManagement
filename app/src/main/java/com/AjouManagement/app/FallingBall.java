@@ -1,11 +1,9 @@
 package com.AjouManagement.app;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.util.AttributeSet;
@@ -153,8 +151,8 @@ public class FallingBall extends View {
         invalidate();
     }
 
-    public void createBall(int x, int y, int directionX, int directionY, int color) {
-        ShapeDrawable ball = new ShapeDrawable(new OvalShape());
+    public void createBall(int x, int y, int directionX, int directionY, int color, String title) {
+        TextDrawable ball = new TextDrawable(title, Typeface.DEFAULT);
         ball.getPaint().setColor(color);
         ball.setBounds(x, y, x + width, y + height); // 공의 위치와 크기 설정
 

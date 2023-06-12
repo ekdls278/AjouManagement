@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements DragListener.List
         routineDataList = viewModel2.getTodayRoutines(formatter.format(date));
 
 
-        viewModel2.getTodayRoutines(formatter.format(date)).observe(this, new Observer<List<RoutineDBEntity>>() {
+        viewModel2.getTodayWithholdRoutine(formatter.format(date)).observe(this, new Observer<List<RoutineDBEntity>>() {
             @Override
             public void onChanged(List<RoutineDBEntity> routineDBEntities) {
                 addAdapter.setMainList(routineDBEntities);
