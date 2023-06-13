@@ -121,11 +121,11 @@ public class DragListener implements View.OnDragListener {
 
 
                                 viewmodel.update(list);
-                                customListTarget.add(positionTarget, list);
+                                //customListTarget.add(positionTarget, list);
                                 Log.d("onDrag", String.valueOf(positionTarget));
                             }
                             else {
-                                customListTarget.add(list);
+                                //customListTarget.add(list);
                                 RoutineDBEntity dragToAdd = new RoutineDBEntity();
 
 //                                dragToAdd.routineTime = list.routineTime;
